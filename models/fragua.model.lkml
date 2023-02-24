@@ -1,4 +1,6 @@
-connection: "fragua"
+connection: "FRAGUA"
+
+include: "/views/**/*.view"
 
 datagroup: fragua_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -7,6 +9,12 @@ datagroup: fragua_default_datagroup {
 
 persist_with: fragua_default_datagroup
 
-include: "/views/**/*.view"
+explore: cat_productos {
+  join: cat_productos_granel_filt {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${cat_productos.producto} = ${cat_productos_granel_filt.producto} ;;
+  }
+}
 
-explore: cat_productos {}
+explore: cat_sucursales {}

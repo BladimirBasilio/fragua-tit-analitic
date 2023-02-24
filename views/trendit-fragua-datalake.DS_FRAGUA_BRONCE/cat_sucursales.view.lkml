@@ -14,12 +14,12 @@ view: cat_sucursales {
 
   dimension: latitud {
     type: number
-    sql: ${TABLE}.latitud ;;
+    sql:${TABLE}.latitud ;;
   }
 
   dimension: longitud {
     type: number
-    sql: ${TABLE}.longitud ;;
+    sql: ${TABLE}.longitud;;
   }
 
   dimension: municipio {
@@ -42,8 +42,35 @@ view: cat_sucursales {
     sql: ${TABLE}.sucursal ;;
   }
 
+  dimension: coordenadas{
+    type: location
+    sql_latitude: ${latitud} ;;
+    sql_longitude: ${longitud} ;;
+  }
+
+  measure: suc_d {
+    type: count_distinct
+    sql: ${sucursal} ;;
+  }
+
+  measure: poblaciones_d {
+    type: count_distinct
+    sql: ${poblacion} ;;
+  }
+
+  measure: municipios_d {
+    type: count_distinct
+    sql: ${municipio} ;;
+  }
+
+  measure: entidades_d {
+    type: count_distinct
+    sql: ${entidad} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: []
   }
+
 }

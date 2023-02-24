@@ -3,6 +3,7 @@ view: cat_productos_granel_filt {
     ;;
 
   dimension: prod_granel {
+    label: "Venta a Granel"
     type: string
     sql: ${TABLE}.prod_granel ;;
   }
@@ -11,6 +12,8 @@ view: cat_productos_granel_filt {
     type: number
     sql: ${TABLE}.producto ;;
   }
+
+
 
   measure: count {
     type: count
