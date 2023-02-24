@@ -6,3 +6,5 @@ datagroup: fragua_default_datagroup {
 }
 
 persist_with: fragua_default_datagroup
+
+include: "/views/**/*.view"
