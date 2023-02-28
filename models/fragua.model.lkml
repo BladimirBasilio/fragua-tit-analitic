@@ -18,3 +18,5 @@ explore: cat_productos {
 }
 
 explore: cat_sucursales {}
+
+explore: tb_ventas_plus {}
