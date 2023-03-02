@@ -19,4 +19,16 @@ explore: cat_productos {
 
 explore: cat_sucursales {}
 
-explore: tb_ventas_plus {}
+explore: tb_ventas_plus {
+  join: pred_segmentacion_suc_v03_hparams {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${tb_ventas_plus.sucursal} = ${pred_segmentacion_suc_v03_hparams.sucursal} ;;
+  }
+
+  join: pred_segmentacion_prod_v03_hparams {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${tb_ventas_plus.producto} = ${pred_segmentacion_prod_v03_hparams.producto} ;;
+  }
+}

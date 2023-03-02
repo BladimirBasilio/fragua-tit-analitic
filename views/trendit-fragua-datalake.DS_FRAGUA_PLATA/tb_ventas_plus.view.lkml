@@ -1,5 +1,5 @@
 view: tb_ventas_plus {
-  sql_table_name: `trendit-fragua-datalake.DS_FRAGUA_PLATA.TB_VENTAS_PLUS`
+  sql_table_name: `trendit-fragua-datalake.DS_FRAGUA_PLATA.VW_VENTAS_PLUS_FILT`
     ;;
 
   dimension: abrevia2 {
