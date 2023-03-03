@@ -32,3 +32,5 @@ explore: tb_ventas_plus {
     sql_on: ${tb_ventas_plus.producto} = ${pred_segmentacion_prod_v03_hparams.producto} ;;
   }
 }
+
+explore: cat_ticket_hash {}

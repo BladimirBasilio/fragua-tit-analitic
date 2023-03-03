@@ -147,6 +147,7 @@ view: tb_ventas_plus {
     type: sum
     sql: ${cantidad} ;;
     value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+    drill_fields: [snombre, venta_invierno, venta_primavera, venta_verano , venta_otonio]
   }
 
   measure: sucursales_con_venta {
@@ -186,6 +187,33 @@ view: tb_ventas_plus {
     type: number
     sql: ${total_vendido}/${folios_totales} ;;
     value_format_name: decimal_2
+  }
+
+  measure: venta_verano {
+    type: sum
+    sql: IF( ${estacion} = 'VERANO', ${cantidad}, 0 ) ;;
+  }
+
+  measure: venta_invierno {
+    type: sum
+    sql: IF( ${estacion} = 'INVIERNO', ${cantidad}, 0 ) ;;
+  }
+
+  measure: venta_primavera {
+    type: sum
+    sql: IF( ${estacion} = 'PRIMAVERA', ${cantidad}, 0 ) ;;
+  }
+
+  measure: venta_otonio {
+    label: "Venta Otoño"
+    type: sum
+    sql: IF( ${estacion} = 'OTONIO', ${cantidad}, 0 ) ;;
+  }
+
+  measure: venta_promedio_sucursal {
+    type: number
+    sql: ${total_vendido}/${sucursales_con_venta} ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
   }
 
 }
