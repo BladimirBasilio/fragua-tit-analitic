@@ -147,7 +147,21 @@ view: tb_ventas_plus {
     type: sum
     sql: ${cantidad} ;;
     value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
-    drill_fields: [snombre, venta_invierno, venta_primavera, venta_verano , venta_otonio]
+    #drill_fields: [sucursal, venta_invierno, venta_primavera, venta_verano , venta_otonio]
+  }
+
+  measure: venta_turno {
+    type: sum
+    sql: ${cantidad} ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+    drill_fields: [sucursal, venta_matutino, venta_vespertino, venta_nocturno]
+  }
+
+  measure: venta_estacion {
+    type: sum
+    sql: ${cantidad} ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+    drill_fields: [sucursal, venta_invierno, venta_primavera, venta_verano , venta_otonio]
   }
 
   measure: sucursales_con_venta {
@@ -166,6 +180,7 @@ view: tb_ventas_plus {
   }
 
   measure: dias_distintos {
+    label: "Dias con Venta"
     type: count_distinct
     sql: ${fecha_date} ;;
   }
@@ -189,31 +204,95 @@ view: tb_ventas_plus {
     value_format_name: decimal_2
   }
 
+  measure: venta_matutino {
+    type: sum
+    sql: IF( ${turno} = 'MATUTINO', ${cantidad}, 0 ) ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+  }
+
+  measure: venta_vespertino {
+    type: sum
+    sql: IF( ${turno} = 'VESPERTINO', ${cantidad}, 0 ) ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+  }
+
+  measure: venta_nocturno {
+    type: sum
+    sql: IF( ${turno} = 'NOCTURNO', ${cantidad}, 0 ) ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+  }
+
   measure: venta_verano {
     type: sum
     sql: IF( ${estacion} = 'VERANO', ${cantidad}, 0 ) ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+
   }
 
   measure: venta_invierno {
     type: sum
     sql: IF( ${estacion} = 'INVIERNO', ${cantidad}, 0 ) ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+
   }
 
   measure: venta_primavera {
     type: sum
     sql: IF( ${estacion} = 'PRIMAVERA', ${cantidad}, 0 ) ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+
   }
 
   measure: venta_otonio {
     label: "Venta Otoño"
     type: sum
-    sql: IF( ${estacion} = 'OTONIO', ${cantidad}, 0 ) ;;
+    sql: IF( ${estacion} = 'OTOÑO', ${cantidad}, 0 ) ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+
   }
 
   measure: venta_promedio_sucursal {
     type: number
     sql: ${total_vendido}/${sucursales_con_venta} ;;
     value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+  }
+
+  measure: venta_promedio_producto {
+    type: number
+    sql: ${total_vendido}/${productos_con_venta} ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+  }
+
+  measure: folios_por_sucursal {
+    type: number
+    sql: ${folios_totales}/${sucursales_con_venta} ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+  }
+
+  measure: folios_por_producto {
+    type: number
+    sql: ${folios_totales}/${productos_con_venta} ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+  }
+
+  measure: lineas_con_venta{
+    type: count_distinct
+    sql: ${linea}  ;;
+  }
+
+  measure: grupo_con_venta{
+    type: count_distinct
+    sql: ${grupo}  ;;
+  }
+
+  measure: productos_controlados_con_venta {
+    type: count_distinct
+    sql: IF( ${controlado} = 'S', ${producto}, null ) ;;
+  }
+
+  measure: productos_granel_con_venta {
+    type: count_distinct
+    sql: IF( ${prod_granel} = 'SI', ${producto}, null ) ;;
   }
 
 }
