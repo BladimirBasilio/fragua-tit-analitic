@@ -1,5 +1,5 @@
 view: pred_segmentacion_suc_v03_hparams {
-  sql_table_name: `trendit-fragua-datalake.DS_FRAGUA_PLATA.PRED_segmentacion_suc_V03_hparams`
+  sql_table_name: `trendit-fragua-datalake.DS_FRAGUA_PLATA.PRED_segmentacion_suc_V05_hparams_pca`
     ;;
 
   dimension: segmento_sucursal {
