@@ -31,6 +31,12 @@ explore: tb_ventas_plus {
     relationship: many_to_one
     sql_on: ${tb_ventas_plus.producto} = ${pred_segmentacion_prod_v03_hparams.producto} ;;
   }
+
+  join: pred_segmentacion_prod_v05_hparams_pca {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${tb_ventas_plus.producto} = ${pred_segmentacion_prod_v05_hparams_pca.producto} ;;
+  }
 }
 
 explore: cat_ticket_hash {}
