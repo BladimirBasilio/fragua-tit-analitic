@@ -6,6 +6,10 @@ view: pred_segmentacion_prod_v05_hparams_pca {
     label: "Segmento Producto"
     type: string
     sql: CAST(${TABLE}.CENTROID_ID AS STRING) ;;
+    link: {
+      label: "Análisis de Ventas"
+      url: "https://trendit.cloud.looker.com/dashboards/75?Segmento+Sucursal=&Segmento+Producto={{ value }}"
+    }
   }
 
   dimension: dias_con_vta {

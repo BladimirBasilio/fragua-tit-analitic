@@ -5,6 +5,10 @@ view: pred_segmentacion_suc_v03_hparams {
   dimension: segmento_sucursal {
     type: string
     sql: CAST(${TABLE}.CENTROID_ID AS STRING);;
+    link: {
+      label: "Análisis de Ventas"
+      url: "https://trendit.cloud.looker.com/dashboards/75?Segmento+Sucursal={{ value }}&Segmento+Producto="
+    }
   }
 
   dimension: segmento_sucursal_num {
