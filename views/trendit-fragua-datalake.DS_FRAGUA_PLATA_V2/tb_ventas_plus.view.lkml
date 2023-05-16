@@ -2,6 +2,13 @@ view: tb_ventas_plus {
   sql_table_name: `trendit-fragua-datalake.DS_FRAGUA_PLATA.VW_VENTAS_PLUS_FILT`
     ;;
 
+
+  dimension: ID {
+    type: string
+    sql: concat( ${TABLE}.folio,${hora}) ;;
+    primary_key: yes
+  }
+
   dimension: abrevia2 {
     type: string
     sql: ${TABLE}.abrevia2 ;;
@@ -53,6 +60,11 @@ view: tb_ventas_plus {
   }
 
   dimension: grupo {
+    type: string
+    sql: CAST(${TABLE}.grupo AS STRING) ;;
+  }
+
+  dimension: grupo_numero {
     type: number
     sql: ${TABLE}.grupo ;;
   }
@@ -83,8 +95,8 @@ view: tb_ventas_plus {
   }
 
   dimension: municipio {
-    type: number
-    sql: ${TABLE}.municipio ;;
+    type: string
+    sql: CAST(${TABLE}.municipio AS STRING) ;;
   }
 
   dimension: pdescrip {
@@ -295,4 +307,75 @@ view: tb_ventas_plus {
     sql: IF( ${prod_granel} = 'SI', ${producto}, null ) ;;
   }
 
+  measure: promedio_folios {
+    type: number
+    sql: ${folios_totales}/${sucursales_con_venta} ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+  }
+
+  #Medidas
+
+  measure: cantidad_sum {
+    type: sum
+    sql: ${cantidad} ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+  }
+
+  measure: folio_count {
+    type: count_distinct
+    sql: ${folio} ;;
+    value_format: "[>=1000000]#,##0.00,,\" M\";[>=1000]#,##0.00,\" K\";#,##0.00"
+  }
+
+  #measure: folioavg_count_min {
+  #  type: min
+  #  sql: ${promedio_folios} ;;
+  #}
+
+  #measure: folioavg_count_q1 {
+  #  type: percentile
+  #  percentile: 25
+  #  sql: ${promedio_folios} ;;
+  #}
+
+  #measure: folioavg_count_q2 {
+  #  type: percentile
+  #  percentile: 50
+  #  sql: ${promedio_folios} ;;
+  #}
+
+  #measure: folioavg_count_q3 {
+  #  type: percentile
+  #  percentile: 75
+  #  sql: ${promedio_folios} ;;
+  #}
+
+  #measure: folioavg_count_max {
+  #  type: max
+  #  sql: ${promedio_folios} ;;
+  #}
+
+  measure: productos_controlados_tot {
+    type: sum
+    sql: IF( ${controlado} = 'S', ${cantidad}, 0 ) ;;
+  }
+
+  measure: productos_no_controlados_tot {
+    type: sum
+    sql: IF( ${controlado} = 'N', ${cantidad}, 0 ) ;;
+  }
+
+  measure: productos_controlados_porc {
+    label: "% Venta Productos Controlados"
+    type: number
+    value_format_name: percent_2
+    sql: ${productos_controlados_tot}/(${productos_controlados_tot} + ${productos_no_controlados_tot});;
+  }
+
+  measure: productos_no_controlados_porc {
+    label: "% Venta Productos No Controlados"
+    type: number
+    value_format_name: percent_2
+    sql: ${productos_no_controlados_tot}/(${productos_controlados_tot} + ${productos_no_controlados_tot});;
+  }
 }
