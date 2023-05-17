@@ -107,3 +107,5 @@ explore:  agg_sucursal_kmeans_dinamico_grafico {
 explore:  agg_sucursal_kmeans_dinamico {
   #label: "Segmentación dinámica"
 }
+
+#Prueba
